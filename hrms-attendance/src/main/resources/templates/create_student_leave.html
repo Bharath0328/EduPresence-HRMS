@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>Create Student Leave Application</title>
+  <style>
+    body {
+        background-color: #34495e;
+        color: white;
+        font-family: Arial, sans-serif;
+    }
+    .form-container {
+        background-color: rgba(44, 62, 80, 0.85);
+        padding: 30px;
+        border-radius: 10px;
+        width: 50%;
+        margin: auto;
+        margin-top: 50px;
+    }
+    input, select, textarea, button {
+        width: 100%;
+        padding: 10px;
+        margin: 10px 0;
+        border-radius: 5px;
+        border: none;
+        background-color: #2c3e50;
+        color: white;
+    }
+    button {
+        background-color: #16a085;
+        cursor: pointer;
+    }
+    button:hover {
+        background-color: #1abc9c;
+    }
+    h1 {
+        text-align: center;
+    }
+  </style>
+</head>
+<body>
+<div class="form-container">
+  <h1>Create Student Leave Application</h1>
+  <form action="/student-leaves/create" method="post" id="leaveForm">
+    <label for="studentName">Student Name:</label>
+    <input type="text" id="studentName" name="studentName" required>
+
+    <label for="studentId">Student ID:</label>
+    <input type="text" id="studentId" name="studentId" required>
+
+    <label for="attendancePercentage">Attendance Percentage:</label>
+    <input type="number" id="attendancePercentage" name="attendancePercentage" step="0.1" required>
+
+    <label for="department">Department:</label>
+    <input type="text" id="department" name="department" required>
+
+    <label for="leaveType">Leave Type:</label>
+    <select id="leaveType" name="leaveType" required>
+      <option value="Sick Leave">Sick Leave</option>
+      <option value="Casual Leave">Casual Leave</option>
+    </select>
+
+    <label for="startDate">Start Date:</label>
+    <input type="date" id="startDate" name="startDate" required>
+
+    <label for="endDate">End Date:</label>
+    <input type="date" id="endDate" name="endDate" required>
+
+    <label for="reason">Reason:</label>
+    <textarea id="reason" name="reason" rows="4" required></textarea>
+
+    <div th:if="${errorMessage}" style="color: red;">
+      <p th:text="${errorMessage}"></p>
+    </div>
+
+    <button type="submit">Submit</button>
+  </form>
+</div>
+
+<script>
+  // Prevent submission if attendance is less than 70%
+  const form = document.getElementById('leaveForm');
+  form.addEventListener('submit', function (event) {
+      const attendance = parseFloat(document.getElementById('attendancePercentage').value);
+      if (attendance < 70.0) {
+          alert("You cannot apply for leave with less than 70% attendance.");
+          event.preventDefault();
+      }
+  });
+</script>
+</body>
+</html>
